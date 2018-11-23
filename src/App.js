@@ -17,6 +17,7 @@ import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import NoMatch from "./noMatch";
 import Home from "./home";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 const theme = createMuiTheme({
     palette: {
@@ -75,30 +76,42 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
                 <BrowserRouter basename={"/"} history={history}>
-                    <div>
-                        <AppBar position="static" className={'app-bar'}>
-                            <Tabs value={value} onChange={this.handleChange} className={classes.menu}>
-                                <Tab label="Home" value={"/"} component={Link} to="/"/>
-                                <Tab label="Video" value={"/video"} component={Link} to="/video"/>
-                                <Tab label="Book" value={"/book"} component={Link} to="/book"/>
-                                <Tab label="Weather" value={"/weather"} component={Link} to="/weather"/>
-                                <Tab label="Blog" value={"/blog"} component={Link} to="/blog"/>
-                                <Tab label="test bar" value={"/test"} component={Link} to="/test"/>
-                            </Tabs>
-                        </AppBar>
-                        <div className={classes.layout}>
-                            <Switch>
-                                <Route exact path="/" component={Home}/>
-                                <Route exact path="/video" component={VideoApp}/>
-                                <Route exact path="/book" component={BookApp}/>
-                                <Route exact path="/weather" component={WeatherApp}/>
-                                <Route path="/blog*" component={BlogApp}/>
+                    <Route
+                        render={({ location }) => (
+                            <div>
+                                <AppBar position="static" className={'app-bar'}>
+                                    <Tabs value={value} onChange={this.handleChange} className={classes.menu}>
+                                        <Tab label="Home" value={"/"} component={Link} to="/"/>
+                                        <Tab label="Video" value={"/video"} component={Link} to="/video"/>
+                                        <Tab label="Book" value={"/book"} component={Link} to="/book"/>
+                                        <Tab label="Weather" value={"/weather"} component={Link} to="/weather"/>
+                                        <Tab label="Blog" value={"/blog"} component={Link} to="/blog"/>
+                                        <Tab label="test bar" value={"/test"} component={Link} to="/test"/>
+                                    </Tabs>
+                                </AppBar>
+                                <div className={classes.layout}>
+                                    <TransitionGroup>
+                                        <CSSTransition
+                                            key={location.key}
+                                            classNames="fade"
+                                            timeout={300}
+                                        >
+                                            <Switch location={location}>
+                                                <Route exact path="/" component={Home}/>
+                                                <Route exact path="/video" component={VideoApp}/>
+                                                <Route exact path="/book" component={BookApp}/>
+                                                <Route exact path="/weather" component={WeatherApp}/>
+                                                <Route path="/blog*" component={BlogApp}/>
 
-                                <Route exact path="/test" component={testApp}/>
-                                <Route component={NoMatch}/>
-                            </Switch>
-                        </div>
-                    </div>
+                                                <Route exact path="/test" component={testApp}/>
+                                                <Route component={NoMatch}/>
+                                            </Switch>
+                                        </CSSTransition>
+                                    </TransitionGroup>
+                                </div>
+                            </div>
+                            )
+                        }/>
                 </BrowserRouter>
             </MuiThemeProvider>
         );
