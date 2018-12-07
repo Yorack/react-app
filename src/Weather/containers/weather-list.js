@@ -30,8 +30,6 @@ class WeatherList extends Component {
         const name = cityData.city.name;
         const { lat, lon } = cityData.city.coord;
 
-        console.log(cityData);
-
         const data = cityData.list.map(weather => {
             return {
                 temperature: _.round(weather.main.temp - 273.15),
@@ -40,7 +38,6 @@ class WeatherList extends Component {
             }
         });
 
-        console.log(data);
         return <TableRow key={id}>
             <TableCell>
                 {name}

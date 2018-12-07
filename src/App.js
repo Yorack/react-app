@@ -76,7 +76,40 @@ class App extends Component {
             <MuiThemeProvider theme={theme}>
                 <CssBaseline />
                 <BrowserRouter basename={"/"} history={history}>
-                    <Route
+                    <div>
+                        <AppBar position="static" className={'app-bar'}>
+                            <Tabs value={value} onChange={this.handleChange} className={classes.menu}>
+                                <Tab label="Home" value={"/"} component={Link} to="/"/>
+                                <Tab label="Video" value={"/video"} component={Link} to="/video"/>
+                                <Tab label="Book" value={"/book"} component={Link} to="/book"/>
+                                <Tab label="Weather" value={"/weather"} component={Link} to="/weather"/>
+                                <Tab label="Blog" value={"/blog"} component={Link} to="/blog"/>
+                                <Tab label="test bar" value={"/test"} component={Link} to="/test"/>
+                            </Tabs>
+                        </AppBar>
+                        <div className={classes.layout}>
+                            <Switch>
+                                <Route exact path="/" component={Home}/>
+                                <Route exact path="/video" component={VideoApp}/>
+                                <Route exact path="/book" component={BookApp}/>
+                                <Route exact path="/weather" component={WeatherApp}/>
+                                <Route path="/blog*" component={BlogApp}/>
+
+                                <Route exact path="/test" component={testApp}/>
+                                <Route component={NoMatch}/>
+                            </Switch>
+                        </div>
+                    </div>
+                </BrowserRouter>
+            </MuiThemeProvider>
+        );
+    }
+}
+
+export default withStyles(styles)(App);
+
+/*
+ <Route
                         render={({ location }) => (
                             <div>
                                 <AppBar position="static" className={'app-bar'}>
@@ -111,42 +144,4 @@ class App extends Component {
                                 </div>
                             </div>
                             )
-                        }/>
-                </BrowserRouter>
-            </MuiThemeProvider>
-        );
-    }
-}
-
-export default withStyles(styles)(App);
-
-/*
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
-
-export default App;
-*/
+                        }/>*/
